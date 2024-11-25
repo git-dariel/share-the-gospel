@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { SignedIn, SignedOut, RedirectToSignIn, useUser } from "@clerk/clerk-react";
 import { useEffect } from "react";
+import { Toaster } from 'react-hot-toast';
 import LandingPage from "./pages/landing_page/LandingPage";
 import SignIn from "./pages/auth_page/SignIn";
 import HomePage from "./pages/home/HomePage";
@@ -35,6 +36,7 @@ const ProtectedHome = () => {
 function App() {
   return (
     <Router>
+      <Toaster position="top-center" />
       <Routes>
         <Route
           path="/"
