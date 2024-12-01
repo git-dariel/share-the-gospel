@@ -6,6 +6,7 @@ import LandingPage from "./pages/landing_page/LandingPage";
 import SignIn from "./pages/auth_page/SignIn";
 import HomePage from "./pages/home/HomePage";
 import ErrorPage from "./pages/error_page/ErrorPage";
+import LoadingSpinner from "./components/LoadingSpinner";
 
 // Wrapper component to prevent navigation when signed in
 const ProtectedHome = () => {
@@ -34,6 +35,13 @@ const ProtectedHome = () => {
 };
 
 function App() {
+  const { isSignedIn, isLoaded } = useUser();
+
+  // Show loading state
+  if (!isLoaded) {
+    return <div className="w-full h-screen flex items-center justify-center"><LoadingSpinner /></div>;
+  }
+
   return (
     <Router>
       <Toaster position="top-center" />
@@ -41,9 +49,13 @@ function App() {
         <Route
           path="/"
           element={
-            <SignedOut>
-              <LandingPage />
-            </SignedOut>
+            isSignedIn ? (
+              <Navigate to="/home" replace />
+            ) : (
+              <SignedOut>
+                <LandingPage />
+              </SignedOut>
+            )
           }
         />
         <Route path="/signin/*" element={<SignIn />} />
