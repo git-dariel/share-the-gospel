@@ -9,9 +9,11 @@ interface PostCardProps {
   timestamp: string;
   onDelete: (id: string) => void;
   onEdit: (id: string, newContent: string) => void;
+  currentUser: string;
+  userImageUrl?: string;
 }
 
-const PostCard = ({ id, userName, content, timestamp, onDelete, onEdit }: PostCardProps) => {
+const PostCard = ({ id, userName, content, timestamp, onDelete, onEdit, currentUser, userImageUrl }: PostCardProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(content);
   const [showActions, setShowActions] = useState(false);
@@ -38,8 +40,14 @@ const PostCard = ({ id, userName, content, timestamp, onDelete, onEdit }: PostCa
         {/* Header */}
         <div className="flex justify-between items-start mb-4">
           <div className="flex items-center">
-            <div className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center font-semibold text-lg">
-              {userName.charAt(0)}
+            <div className="w-10 h-10 rounded-full overflow-hidden">
+              {userImageUrl ? (
+                <img src={userImageUrl} alt={userName} className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full bg-black text-white flex items-center justify-center font-semibold text-lg">
+                  {userName.charAt(0)}
+                </div>
+              )}
             </div>
             <div className="ml-3">
               <h3 className="font-semibold text-gray-900">{userName}</h3>
@@ -58,7 +66,7 @@ const PostCard = ({ id, userName, content, timestamp, onDelete, onEdit }: PostCa
               </svg>
             </button>
             
-            {showActions && (
+            {showActions && currentUser === userName && (
               <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-10 py-2">
                 <button
                   onClick={handleEdit}

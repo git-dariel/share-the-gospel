@@ -10,6 +10,7 @@ interface Post {
   userName: string;
   content: string;
   timestamp: string;
+  userImageUrl?: string;
 }
 
 const HomePage = () => {
@@ -28,6 +29,7 @@ const HomePage = () => {
       userName: `${user?.firstName} ${user?.lastName}`,
       content,
       timestamp: new Date().toISOString(),
+      userImageUrl: user?.imageUrl,
     };
 
     savePost(newPost);
@@ -69,6 +71,8 @@ const HomePage = () => {
               timestamp={post.timestamp}
               onEdit={handleEditPost}
               onDelete={handleDeletePost}
+              currentUser={`${user?.firstName} ${user?.lastName}`}
+              userImageUrl={post.userImageUrl}
             />
           ))}
           {posts.length === 0 && (
